@@ -62,3 +62,18 @@
     Given I go to "https://skryabin.com/market/quote.html"
     And I accept agreement
     And I dismiss agreement
+
+  @homework7_1_1
+  Scenario: Swap elements
+    And I swap 3 and 5 element in 5 2 9 7 3 array
+
+  @homework7_1_2
+  Scenario: Divisibility
+    And I check divisibility of 1 by 2 , 1 and both
+
+  @homework7_2
+  Scenario: Validate ZIP code for Portnov Computer School
+    Given I go to usps page
+    When I go to Lookup ZIP page by address
+    And I fill out "4970 El Camino Real" street, "Los Altos" city, "CA" state
+    Then I validate "94022" zip code exists in the result

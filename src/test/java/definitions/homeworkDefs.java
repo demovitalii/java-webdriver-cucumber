@@ -2,9 +2,14 @@ package definitions;
 
 import cucumber.api.java.en.And;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
@@ -182,5 +187,95 @@ public class homeworkDefs {
     public void iDismissAgreement() {
         getDriver().findElement(By.xpath("//button[@id='thirdPartyButton']")).click();
         getDriver().switchTo().alert().dismiss();
+    }
+
+
+    @And("I swap {int} and {int} element in {int} {int} {int} {int} {int} array")
+    public void iSwapAndElementInArray(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6) {
+        int myArray[] = new int[]{arg2, arg3, arg4, arg5, arg6};
+        System.out.print("Original array: [");
+        for (int i = 0; i < 4; i++)
+        {
+            System.out.print(myArray[i]+", ");
+        }
+        System.out.println(myArray[4]+"]");
+
+        int firstIndex = arg0 - 1;
+        int secondIndex = arg1 - 1;
+
+        int temp = myArray[secondIndex];
+        myArray[secondIndex] = myArray[firstIndex];
+        myArray[firstIndex] = temp;
+
+        System.out.print("Swapped array: [");
+        for (int i = 0; i < 4; i++)
+        {
+            System.out.print(myArray[i]+", ");
+        }
+        System.out.println(myArray[4]+"]");
+    }
+
+    @And("I check divisibility of {int} by {int} , {int} and both")
+    public void iCheckDivisibilityOfByAndBoth(int n, int d1, int d2) {
+        if(d1 == 0 || d2 == 0){
+            System.out.println(n +" division by zero error");
+        }
+        else if(d1 == d2){
+            System.out.println("Dividers are equal!!!");
+            System.out.println("But we check anyway:");
+            if(n%d1==0){
+                System.out.println(n +" divisible by " + d1);
+            }
+
+            else{
+                System.out.println("Not Divisible");
+            }
+        }
+        else {
+            if(n%d1==0 && n%d2==0){
+                System.out.println(n +" divisible by " + d1 +" and "+d2);
+            }
+            else if(n%d1==0){
+                System.out.println(n +" divisible by " + d1);
+            }
+            else if(n%d2==0){
+                System.out.println(n +" divisible by " + d2);
+            }
+            else{
+                System.out.println("Not Divisible");
+            }
+        }
+
+    }
+
+    @Given("I go to usps page")
+    public void iGoToUspsPage() {
+        getDriver().get("https://www.usps.com");
+    }
+
+    @When("I go to Lookup ZIP page by address")
+    public void iGoToLookupZIPPageByAddress() {
+        getDriver().manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+        getDriver().findElement(By.xpath("//a[contains(@class,'nav-first-element')]")).click();
+        getDriver().findElement(By.xpath("//img[contains(@alt,'Zip Code')]/..")).click();
+        getDriver().findElement(By.xpath("//a[contains(text(),'Find by Address')]")).click();
+
+    }
+
+    @And("I fill out {string} street, {string} city, {string} state")
+    public void iFillOutStreetCityState(String street, String city, String state) throws InterruptedException {
+        getDriver().manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+        getDriver().findElement(By.xpath("//input[@id='tAddress']")).sendKeys(street);
+        getDriver().findElement(By.xpath("//input[@id='tCity']")).sendKeys(city);
+        String stateOptionXpath = "//option[@value='"+state+"']";
+        getDriver().findElement(By.xpath(stateOptionXpath)).click();
+        getDriver().findElement(By.xpath("//a[@id='zip-by-address']")).click();
+        Thread.sleep(5000);
+
+    }
+
+    @Then("I validate {string} zip code exists in the result")
+    public void iValidateZipCodeExistsInTheResult(String zip) {
+        assertThat(getDriver().findElement(By.xpath("//div[@id='zipByAddressDiv']")).getText()).contains(zip);
     }
 }
