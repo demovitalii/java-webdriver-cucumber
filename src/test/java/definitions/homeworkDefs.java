@@ -13,6 +13,12 @@ import cucumber.api.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -277,5 +283,204 @@ public class homeworkDefs {
     @Then("I validate {string} zip code exists in the result")
     public void iValidateZipCodeExistsInTheResult(String zip) {
         assertThat(getDriver().findElement(By.xpath("//div[@id='zipByAddressDiv']")).getText()).contains(zip);
+    }
+
+    @And("I print all numbers from zerro up to {int}")
+    public void iPrintAllNumbersFromZerroUpTo(int n) {
+        int i = 0;
+        while( i < n+1){
+            System.out.println(i);
+            i++;
+        }
+    }
+
+    @And("I print all numbers from {int} up to {int}")
+    public void iPrintAllNumbersFromUpTo(int i, int n) {
+        while( i < n+1){
+            System.out.println(i);
+            i++;
+        }
+    }
+
+    @And("I print integer array")
+    public void iPrintIntegerArray() {
+        int[] myArray = new int[]{1,2,3,4,5};
+        for(int i: myArray){
+            System.out.print(i+" ");
+        }
+    }
+
+    @And("I print all even numbers from integer array")
+    public void iPrintAllEvenNumbersFromIntegerArray() {
+        int[] myArray = new int[]{1,2,3,4,5};
+        for(int i: myArray){
+            if(i%2==0){
+               System.out.print(i+" ");
+            }
+        }
+    }
+
+    @And("I check if array is empty")
+    public void iCheckIfArrayIsEmpty() {
+        int[] myArray = new int[]{};
+            if(myArray.length==0){
+                System.out.println("Array is empty");
+            }
+            else {
+                System.out.println("Array is not empty");
+            };
+    }
+
+    @And("I check if array contains another element")
+    public void iCheckIfArrayContainsAnotherElement() {
+        int[] myArray = new int[]{1, 4, 3, 6, 7};
+        int element = 5;
+        String present = "Element is not present in array";
+        for(int i: myArray){
+            if(i==element){
+                present = "element is present in array";
+            }
+        }
+        System.out.println(present);
+
+    }
+
+    @And("I print all numbers up to {int} with conditions Fizz and Buzz")
+    public void iPrintAllNumbersUpToWithConditionsFizzAndBuzz(int n) {
+        int i = 1;
+        while (i < n+1){
+            if(i%3==0 && i%5==0){
+                System.out.print("FizzBuzz ");
+            }
+            else if(i%3==0){
+                System.out.print("Fizz ");
+            }
+            else if(i%5==0){
+                System.out.print("Buzz ");
+            }
+            else {
+                System.out.print(i+" ");
+            }
+            i++;
+        }
+    }
+
+    @When("I go to Calculate Price Page")
+    public void iGoToCalculatePricePage() {
+        WebElement mailAndShip = getDriver().findElement(By.xpath("//a[@id='mail-ship-width']"));
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(mailAndShip).perform();
+        getDriver().findElement(By.xpath("//li[@class='tool-calc']/a[contains(@href,'postcalc')]")).click();
+
+    }
+
+    @And("I select {string} with {string} shape")
+    public void iSelectWithShape(String Country, String type) {
+        getDriver().manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+        String CountryId = "000000";
+        if(Country.equals("Canada")){
+            CountryId="10054";
+        }
+        if(Country.equals("El Salvador")){
+            CountryId="10095";
+        }
+        if(Country.equals("Estonia")){
+            CountryId="10104";
+        }
+        if(Country.equals("Fiji")){
+            CountryId="10109";
+        }
+
+        Select stateSelect = new Select(getDriver().findElement(By.xpath("//select[@name='CountryID']")));
+        stateSelect.selectByValue(CountryId);
+        if(type.equals("Postcard")){
+            getDriver().findElement(By.xpath("//input[@id='option_1']")).click();
+        }
+        else{
+            System.out.println("error");
+        }
+    }
+
+    @And("I define {string} quantity")
+    public void iDefineQuantity(String n) {
+        getDriver().findElement(By.xpath("//input[@placeholder='Quantity']")).sendKeys(n);
+    }
+
+    @Then("I calculate the price and validate cost is {string}")
+    public void iCalculateThePriceAndValidateCostIs(String cost) {
+        getDriver().findElement(By.xpath("//input[@value='Calculate']")).click();
+        if(getDriver().findElement(By.xpath("//div[@id='total']")).getText().equals(cost)){
+            System.out.println("OK");
+            System.out.println(getDriver().findElement(By.xpath("//div[@id='total']")).getText());
+        }
+        else {
+            System.out.println("NOT OK");
+            System.out.println(getDriver().findElement(By.xpath("//div[@id='total']")).getText());
+        }
+    }
+
+    @When("I go to {string} tab")
+    public void iGoToTab(String text) {
+        String menuXpath = "//a[@class='menuitem'][contains(text(),'"+text+"')]";
+        getDriver().findElement(By.xpath(menuXpath)).click();
+
+    }
+
+    @And("I perform {string} help search")
+    public void iPerformHelpSearch(String searchText) {
+        getDriver().manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+        getDriver().findElement(By.xpath("//span[@class='search-field-group']//input")).sendKeys(searchText);
+        getDriver().findElement(By.xpath("//button[@title='Search'][1]")).click();
+    }
+
+    @Then("I verify that no results of {string} available in help search")
+    public void iVerifyThatNoResultsOfAvailableInHelpSearch(String searchText) {
+        getDriver().findElement(By.xpath("//span[@class='search-field-group']//input")).clear();
+
+        assertThat(getDriver().findElement(By.xpath("//body")).getText()).doesNotContain(searchText);
+
+
+    }
+
+    @When("I navigate to Find a Location page")
+    public void iNavigateToFindALocationPage() {
+        getDriver().manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+        getDriver().findElement(By.xpath("//a[contains(@class,'nav-first-element')]")).click();
+        getDriver().findElement(By.xpath("//p[contains(text(),'Find USPS Locations')]/..")).click();
+    }
+
+    @And("I filter by {string} location types, {string} services, {string} available services")
+    public void iFilterByLocationTypesServicesAvailableServices(String LocType, String Serv, String AvServ) {
+        getDriver().manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+        if(LocType.equals("Post Offices")){
+            getDriver().findElement(By.xpath("//button[@id='post-offices-select']")).click();
+            getDriver().findElement(By.xpath("//div[@class='col-md-4 col-sm-5 col-xs-12 location-type-container']//li[2]//a[1]")).click();
+
+        }
+        if(Serv.equals("Pickup Services")){
+            getDriver().findElement(By.xpath("//button[@id='service-type-select']")).click();
+            getDriver().findElement(By.xpath("//li[@id='pickupPo']//a[contains(text(),'Pickup Services')]")).click();
+        }
+        if(AvServ.equals("Accountable Mail")){
+            getDriver().findElement(By.xpath("//button[@id='available-service-select']")).click();
+            getDriver().findElement(By.xpath("//a[contains(text(),'Accountable Mail')]")).click();
+        }
+    }
+
+    @And("I provide data as {string} street, {string} city, {string} state")
+    public void iProvideDataAsStreetCityState(String street, String city, String state) {
+        getDriver().findElement(By.xpath("//input[@id='search-input']")).click();
+        getDriver().findElement(By.xpath("//input[@id='addressLineOne']")).sendKeys(street);
+        getDriver().findElement(By.xpath("//input[@id='cityOrZipCode']")).sendKeys(city);
+        String stateXpath = "//option[@value='"+state+"']";
+        getDriver().findElement(By.xpath(stateXpath)).click();
+        getDriver().findElement(By.xpath("//a[contains(text(),'Go to Results')]")).click();
+    }
+
+    @Then("I verify phone number is {string}")
+    public void iVerifyPhoneNumberIs(String phone) {
+        getDriver().findElement(By.xpath("//div[@id='resultBox']/div[1]")).click();
+        assertThat(getDriver().findElement(By.xpath("//p[@class='ask-usps']")).getText()).contains(phone);
+
     }
 }

@@ -77,3 +77,64 @@
     When I go to Lookup ZIP page by address
     And I fill out "4970 El Camino Real" street, "Los Altos" city, "CA" state
     Then I validate "94022" zip code exists in the result
+
+  @homework8_1_1
+  Scenario: Function that prints all numbers from 0 up to n
+    And I print all numbers from zerro up to 10
+
+  @homework8_1_2
+  Scenario: Function that supports also negative numbers
+    And I print all numbers from -8 up to 10
+
+  @homework8_1_3
+  Scenario: Function that prints all integer array
+    And I print integer array
+
+  @homework8_1_4
+  Scenario: Function that prints all even numbers from integer array
+    And I print all even numbers from integer array
+
+  @homework8_1_5
+  Scenario: Function that checks if array is empty
+    And I check if array is empty
+
+  @homework8_1_6
+  Scenario: Function that checks if array contains another element
+    And I check if array contains another element
+
+  @homework8_1_7
+  Scenario: Print all the numbers up to the argument with conditions
+    And I print all numbers up to 20 with conditions Fizz and Buzz
+
+  @homework8_2_1
+  Scenario: Calculate price
+    Given I go to usps page
+    When I go to Calculate Price Page
+    And I select "Canada" with "Postcard" shape
+    And I define "2" quantity
+    Then I calculate the price and validate cost is "$2.40"
+
+  #@homework8_2_2
+  #Scenario: Verify location
+   # Given I go to usps page
+   # When I perform "Free Boxes" search
+    #And I set "Mail & Ship" in filters
+    #Then I verify that "6" results found
+    #When I select "Priority Mail | USPS" in results
+    #And I click "Ship Now" button
+    #Then I validate that Sign In is required
+
+  @homework8_2_3
+  Scenario: Quadcopters delivery
+    Given I go to usps page
+    When I go to "Help" tab
+    And I perform "Quadcopters delivery" help search
+    Then I verify that no results of "Quadcopters delivery" available in help search
+
+  @homework8_2_4
+  Scenario: Phone number of the nearest Mail Pickup
+    Given I go to usps page
+    When I navigate to Find a Location page
+    And I filter by "Post Offices" location types, "Pickup Services" services, "Accountable Mail" available services
+    And I provide data as "4970 El Camino Real 110" street, "Los Altos" city, "CA" state
+    Then I verify phone number is "800-275-8777"
