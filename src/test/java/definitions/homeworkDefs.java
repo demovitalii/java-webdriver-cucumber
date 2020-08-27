@@ -2,18 +2,16 @@ package definitions;
 
 import cucumber.api.java.en.And;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import cucumber.api.java8.Th;
+import cucumber.api.java8.Tr;
+import org.apache.groovy.json.internal.Value;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -482,5 +480,202 @@ public class homeworkDefs {
         getDriver().findElement(By.xpath("//div[@id='resultBox']/div[1]")).click();
         assertThat(getDriver().findElement(By.xpath("//p[@class='ask-usps']")).getText()).contains(phone);
 
+    }
+
+    @Given("I go to converter page")
+    public void iGoToConverterPage() {
+        getDriver().get("https://www.unitconverters.net/");
+    }
+
+    @And("I click on {string}")
+    public void iClickOn(String page) {
+        if(page.equalsIgnoreCase("temperature")){
+            getDriver().findElement(By.xpath("//div[@id='menu']//a[contains(text(),'Temperature')]")).click();
+        }
+        else if(page.equalsIgnoreCase("length")){
+            System.out.println("");
+        }
+        else if(page.equalsIgnoreCase("area")){
+            getDriver().findElement(By.xpath("//div[@id='menu']//a[contains(text(),'Area')]")).click();
+        }
+        else if(page.equalsIgnoreCase("volume")){
+            getDriver().findElement(By.xpath("//div[@id='menu']//a[contains(text(),'Volume')]")).click();
+        }
+        else if(page.equalsIgnoreCase("weigth")){
+            getDriver().findElement(By.xpath("//div[@id='menu']//a[contains(text(),'Weight')]")).click();
+        }
+        else if(page.equalsIgnoreCase("time")){
+            getDriver().findElement(By.xpath("//div[@id='menu']//a[contains(text(),'Time')]")).click();
+        }
+        else {
+            System.out.println("input error");
+        }
+    }
+
+    @And("I select from {string} and to {string}")
+    public void iSelectFromAndTo(String from, String to){
+
+        Select fromSelect = new Select(getDriver().findElement(By.xpath("//select[@name='calFrom']")));
+        fromSelect.selectByVisibleText(from);
+        Select toSelect = new Select(getDriver().findElement(By.xpath("//select[@name='calTo']")));
+        toSelect.selectByVisibleText(to);
+    }
+
+    @And("I set from {string} value and verify result is {string}")
+    public void iSetFromValueAndVerifyResultIs(String from, String expResult) {
+        getDriver().findElement(By.xpath("//input[@name='fromVal']")).sendKeys(from);
+        String actResult = getDriver().findElement(By.xpath("//input[@name='toVal']")).getAttribute("value");
+        float intActResul = Float.parseFloat(actResult);
+        float intExpResul = Float.parseFloat(expResult);
+        double accuracy = 1.015;
+        if (intActResul<intExpResul*accuracy && intActResul>intExpResul/accuracy ){
+            System.out.println("ok");
+        }
+        else {
+            System.out.println("not ok");
+        }
+    }
+
+
+    @When("I go to Every Door Direct Mail under Business")
+    public void iGoToEveryDoorDirectMailUnderBusiness() {
+        WebElement everyDoorDirectMail = getDriver().findElement(By.xpath("//a[@id='navbusiness']/.."));
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(everyDoorDirectMail).perform();
+        getDriver().findElement(By.xpath("//a[contains(text(),'Every Door Direct Mail')]")).click();
+    }
+
+    @And("I search for {string}")
+    public void iSearchFor(String address){
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement input = getDriver().findElement(By.xpath("//input[@id='address']"));
+        wait.until(ExpectedConditions.elementToBeClickable(input));
+        getDriver().findElement(By.xpath("//input[@id='address']")).sendKeys(address);
+        getDriver().findElement(By.xpath("//span[contains(text(),'Search')]/../..//button[@type='submit']")).click();
+    }
+
+
+    @And("I click Show Table on the map")
+    public void iClickShowTableOnTheMap(){
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement  element = getDriver().findElement(By.xpath("//a[@class='route-table-toggle']"));
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        ex.executeScript("arguments[0].click()", element);
+
+
+    }
+
+    @When("I click Select All on the table")
+    public void iClickSelectAllOnTheTable(){
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+
+
+
+
+        WebElement  element = getDriver().findElement(By.xpath("//a[@class='totalsArea']"));
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        ex.executeScript("arguments[0].click()", element);
+    }
+
+    @And("I close modal window")
+    public void iCloseModalWindow(){
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement close = getDriver().findElement(By.xpath("//div[@id='modal-box-closeModal']"));
+        wait.until(ExpectedConditions.elementToBeClickable(close)).click();
+    }
+
+    @Then("I verify that summary of all rows of Cost column is equal Approximate Cost in Order Summary")
+    public void iVerifyThatSummaryOfAllRowsOfCostColumnIsEqualApproximateCostInOrderSummary() throws InterruptedException {
+        WebElement problematicElement= getDriver().findElement(By.xpath("//div[@class='dojoxGridScrollbox']"));
+        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        ex.executeScript("arguments[0].scrollBy(0,1000)", problematicElement);
+        Thread.sleep(1000);
+
+
+
+
+
+
+        List<WebElement> all = getDriver().findElements(By.xpath("//td[contains(text(),'$')][not(contains(text(),'k'))]"));
+        List<Double> listValue;
+        listValue = new ArrayList<>();
+
+        for (WebElement i : all){
+            listValue.add(Double.parseDouble(i.getText().substring(1)));
+        }
+
+        double sum = 0.00;
+        for (double i:listValue){
+            sum+=i;
+        }
+        double approxCostDouble = Double.parseDouble(getDriver().findElement(By.xpath("//span[@class='approx-cost']")).getText());
+        int intSum = (int)sum;
+        int intApproxCost = (int)approxCostDouble;
+        if(intApproxCost==intSum){
+            System.out.println("OK");
+        }
+        else {
+            System.out.println("NOT OK");
+        }
+        System.out.println(intApproxCost);
+        System.out.println(intSum);
+
+
+    }
+
+    @Given("I go to calculator page")
+    public void iGoToCalculatorPage() {
+        getDriver().get("https://www.calculator.net/");
+    }
+
+    @When("I navigate to {string}")
+    public void iNavigateTo(String arg0) {
+        getDriver().findElement(By.xpath("//a[contains(text(),'Auto Loan Calculator')]")).click();
+    }
+
+    @And("I clear all calculator fields")
+    public void iClearAllCalculatorFields() {
+        getDriver().findElement(By.xpath("//input[@id='cloanamount']")).clear();
+        getDriver().findElement(By.xpath("//input[@id='cloanterm']")).clear();
+        getDriver().findElement(By.xpath("//input[@id='cinterestrate']")).clear();
+        getDriver().findElement(By.xpath("//input[@id='cdownpayment']")).clear();
+        getDriver().findElement(By.xpath("//input[@id='csaletax']")).clear();
+        getDriver().findElement(By.xpath("//input[@id='ctitlereg']")).clear();
+    }
+
+    @And("I calculate")
+    public void iCalculate() {
+        getDriver().findElement(By.xpath("//input[@value='Calculate']")).click();
+    }
+
+    @Then("I verify {string} calculator error")
+    public void iVerifyCalculatorError(String arg0) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement error = getDriver().findElement(By.xpath("//font[contains(text(),'Please provide a positive auto price.')]"));
+        wait.until(ExpectedConditions.elementToBeClickable(error));
+
+    }
+
+    @And("I enter {string} price, {string} months, {string} interest, {string} downpayment, {string} trade-in, {string} state, {string} percent tax, {string} fees")
+    public void iEnterPriceMonthsInterestDownpaymentTradeInStatePercentTaxFees(String price, String month, String interest, String downpayment, String tradeIn, String state, String tax, String fees) {
+        getDriver().findElement(By.xpath("//input[@id='cloanamount']")).sendKeys(price);
+        getDriver().findElement(By.xpath("//input[@id='cloanterm']")).sendKeys(month);
+        getDriver().findElement(By.xpath("//input[@id='cinterestrate']")).sendKeys(interest);
+        getDriver().findElement(By.xpath("//input[@id='cdownpayment']")).sendKeys(downpayment);
+        getDriver().findElement(By.xpath("//input[@id='ctradeinvalue']")).sendKeys(tradeIn);
+        Select stateSelect = new Select(getDriver().findElement(By.xpath("//select[@name='cstate']")));
+        stateSelect.selectByVisibleText(state);
+        getDriver().findElement(By.xpath("//input[@id='csaletax']")).sendKeys(tax);
+        getDriver().findElement(By.xpath("//input[@id='ctitlereg']")).sendKeys(fees);
+
+    }
+
+    @Then("I verify monthly pay is {string}")
+    public void iVerifyMonthlyPayIs(String pay) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement payAm = getDriver().findElement(By.xpath("//h2[@class='h2result']"));
+        wait.until(ExpectedConditions.textToBePresentInElement(payAm, pay));
     }
 }
