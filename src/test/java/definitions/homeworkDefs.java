@@ -678,4 +678,227 @@ public class homeworkDefs {
         WebElement payAm = getDriver().findElement(By.xpath("//h2[@class='h2result']"));
         wait.until(ExpectedConditions.textToBePresentInElement(payAm, pay));
     }
+
+    @And("user input {int} and {int} which are divided by {int}")
+    public void userInputAnd(int first, int second, int dvsr) {
+        if (first % dvsr == 0 && second % dvsr == 0){
+            if(first > 0 && first <= 10){
+                System.out.println("First input are in range of 1..10");
+            }
+            else if(first > 10 && first <= 20){
+                System.out.println("First input are in range of 10..20");
+            }
+            else {
+                System.out.println("First input are "+first);
+            }
+            if(second > 0 && second <= 10){
+                System.out.println("Second input are in range of 1..10");
+            }
+            else if(second > 10 && second <= 20){
+                System.out.println("Second input are in range of 10..20");
+            }
+            else {
+                System.out.println("Second input are "+second);
+            }
+
+        }
+        else{
+            System.out.println("incorrect input");
+        }
+    }
+
+    @And("I add {int} to {int} , print result and verify it")
+    public void iAddToPrintResultAndVerifyIt(int first, int second) throws InterruptedException {
+        int add = first + second;
+        System.out.println("Addition is "+add);
+
+        System.out.println("TESTING...");
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println(".");
+        TimeUnit.SECONDS.sleep(1);;
+        System.out.println(".");
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println(".");
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println("Please wait we doing some extremely complicated calculations");
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println(".");
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println(".");
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println(".");
+        TimeUnit.SECONDS.sleep(1);
+
+        if(add - first != second || add - second != first) {
+            System.out.println("TEST FAILED");
+        }
+        else {
+            System.out.println("TEST PASSED");
+        }
+        TimeUnit.SECONDS.sleep(5);
+    }
+
+    @And("I reverse every third character of a string {string}")
+    public void iReverseEveryThirdCharacterOfAString(String str) {
+        StringBuilder newString = new StringBuilder();
+        for(int i=str.length()-3; i>=0; i-=3){
+            newString.append(str.charAt(i));
+        }
+        System.out.println(newString);
+
+    }
+
+    @And("I translate {string} to YODA language")
+    public void iTranslateToYODALanguage(String humanText) {
+        String[] humanTextArray = humanText.split(" ");
+        System.out.println("Human text: "+humanText);
+        StringBuilder yodaText = new StringBuilder();
+        for(int i = humanTextArray.length-1; i>=0; i-=1){
+            yodaText.append(humanTextArray[i]+" ");
+        }
+        yodaText.setLength(yodaText.length() - 1);
+        System.out.println("Yoda text: "+yodaText);
+
+    }
+
+    @Given("I go to ups page")
+    public void iGoToUpsPage() {
+        getDriver().get("https://www.ups.com/us/en/Home.page?");
+    }
+
+    @And("I open Shipping menu")
+    public void iOpenShippingMenu() {
+        getDriver().findElement(By.xpath("//a[@id='ups-menuLinks2']")).click();
+    }
+
+    @And("I go to Create a Shipment")
+    public void iGoToCreateAShipment() {
+        getDriver().findElement(By.xpath("//a[contains(text(),'Create a Shipment:')]")).click();
+    }
+
+    @When("I fill out origin shipment fields")
+    public void iFillOutOriginShipmentFields() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement check = getDriver().findElement(By.xpath("//select[@id='origincountry']"));
+        wait.until(ExpectedConditions.elementToBeClickable(check));
+        getDriver().findElement(By.xpath("//option[contains(text(),'United States')]")).click();
+        getDriver().findElement(By.xpath("//input[@id='originname']")).sendKeys("Vitalii");
+        getDriver().findElement(By.xpath("//input[@id='originaddress1']")).sendKeys("111 Ruan Court");
+        getDriver().findElement(By.xpath("//input[@id='originpostal']")).sendKeys("95630");
+        getDriver().findElement(By.xpath("//input[@id='origincity']")).sendKeys("Folsom");
+        getDriver().findElement(By.xpath("//option[contains(text(),'California')]")).click();
+        getDriver().findElement(By.xpath("//input[@id='originemail']")).sendKeys("123@example.com");
+        getDriver().findElement(By.xpath("//input[@id='originphone']")).sendKeys("1591595151");
+
+
+    }
+
+    @And("I submit the shipment form")
+    public void iSubmitTheShipmentForm() {
+        WebElement submit = getDriver().findElement(By.xpath("//button[@id='nbsBackForwardNavigationContinueButton']"));
+        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        ex.executeScript("arguments[0].click()", submit);
+    }
+
+    @Then("I verify origin shipment fields submitted")
+    public void iVerifyOriginShipmentFieldsSubmitted() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement ship = getDriver().findElement(By.xpath("//div[@class='ups-section']"));
+        wait.until(ExpectedConditions.textToBePresentInElement(ship, "Vitalii"));
+    }
+
+    @And("I cancel the shipment form")
+    public void iCancelTheShipmentForm() {
+        WebElement cancel = getDriver().findElement(By.xpath("//button[@id='nbsBackForwardNavigationCancelShipmentButton']"));
+        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        ex.executeScript("arguments[0].click()", cancel);
+        WebElement yes = getDriver().findElement(By.xpath("//button[@id='nbsCancelShipmentWarningYes']"));
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        wait.until(ExpectedConditions.elementToBeClickable(yes));
+
+        ex.executeScript("arguments[0].click()", yes);
+
+    }
+
+    @Then("I verify shipment form is reset")
+    public void iVerifyShipmentFormIsReset() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement wrap = getDriver().findElement(By.xpath("//div[@class='ups-wrap_inner']//div[@class='ups-wrap']"));
+        wait.until(ExpectedConditions.textToBePresentInElement(wrap, "Hello. Where are you shipping from?"));
+    }
+    @When("I fill out destination shipment fields")
+    public void iFillOutDestinationShipmentFields() {
+        getDriver().findElement(By.xpath("//option[contains(text(),'United States')]")).click();
+        getDriver().findElement(By.xpath("//input[@id='destinationname']")).sendKeys("Ivan");
+        getDriver().findElement(By.xpath("//input[@id='destinationaddress1']")).sendKeys("155 TTT");
+        getDriver().findElement(By.xpath("//input[@id='destinationpostal']")).sendKeys("95030");
+        getDriver().findElement(By.xpath("//input[@id='destinationcity']")).sendKeys("Los Gatos");
+        getDriver().findElement(By.xpath("//option[contains(text(),'California')]")).click();
+    }
+
+    @And("I set packaging type and weight")
+    public void iSetPackagingTypeAndWeight() {
+        getDriver().findElement(By.xpath("//option[contains(text(),'My Packaging')]")).click();
+        getDriver().findElement(By.xpath("//input[@id='nbsPackagePackageWeightField0']")).sendKeys("5");
+    }
+
+    @Then("I verify total charges appear")
+    public void iVerifyTotalChargesAppear() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement body = getDriver().findElement(By.xpath("//body"));
+        wait.until(ExpectedConditions.textToBePresentInElement(body, "$"));
+
+    }
+
+    @And("I select cheapest delivery option")
+    public void iSelectCheapestDeliveryOption() {
+        List<WebElement> myList=getDriver().findElements(By.xpath("//strong[contains(text(),'$')]"));
+        int i = myList.toArray().length-1;
+        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        ex.executeScript("arguments[0].click()", myList.get(i));
+
+    }
+
+    @And("I set description and check Saturday Delivery type")
+    public void iSetDescriptionAndCheckSaturdayDeliveryType() {
+        getDriver().findElement(By.xpath("//input[@id='nbsShipmentDescription']")).sendKeys("hello");
+        getDriver().findElement(By.xpath("//saturday-delivery-option[@class='ng-star-inserted']//label[@class='ups-lever ups-checkbox-custom-label section-checkbox-label']")).click();
+        
+
+    }
+
+    @Then("I verify total charges changed")
+    public void iVerifyTotalChargesChanged() throws InterruptedException {
+        getDriver().findElement(By.xpath("//saturday-delivery-option[@class='ng-star-inserted']//label[@class='ups-lever ups-checkbox-custom-label section-checkbox-label']")).click();
+        Thread.sleep(500);
+        String anyDay = getDriver().findElement(By.xpath("//span[@id='total-charges-spinner']")).getText();
+        getDriver().findElement(By.xpath("//saturday-delivery-option[@class='ng-star-inserted']//label[@class='ups-lever ups-checkbox-custom-label section-checkbox-label']")).click();
+        Thread.sleep(500);
+        String saturday = getDriver().findElement(By.xpath("//span[@id='total-charges-spinner']")).getText();
+        if(anyDay.equals(saturday)){
+            System.out.println("not ok");
+        }
+        else {
+            System.out.println("ok");
+        }
+        System.out.println(anyDay);
+        System.out.println(saturday);
+
+    }
+
+    @And("I select Paypal payment type")
+    public void iSelectPaypalPaymentType() {
+        getDriver().findElement(By.xpath("//span[contains(text(),'Other Ways to Pay')]")).click();
+    }
+
+    @Then("I review all recorded details on the review page")
+    public void iReviewAllRecordedDetailsOnTheReviewPage() throws InterruptedException {
+
+        getDriver().findElement(By.xpath("//button[@id='nbsBackForwardNavigationReviewPrimaryButton']")).click();
+        Thread.sleep(1000);
+
+    }
+
+
 }
