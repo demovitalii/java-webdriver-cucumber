@@ -681,30 +681,24 @@ public class homeworkDefs {
 
     @And("user input {int} and {int} which are divided by {int}")
     public void userInputAnd(int first, int second, int dvsr) {
-        if (first % dvsr == 0 && second % dvsr == 0){
-            if(first > 0 && first <= 10){
-                System.out.println("First input are in range of 1..10");
-            }
-            else if(first > 10 && first <= 20){
-                System.out.println("First input are in range of 10..20");
-            }
-            else {
-                System.out.println("First input are "+first);
-            }
-            if(second > 0 && second <= 10){
-                System.out.println("Second input are in range of 1..10");
-            }
-            else if(second > 10 && second <= 20){
-                System.out.println("Second input are in range of 10..20");
-            }
-            else {
-                System.out.println("Second input are "+second);
-            }
+        int div1 = first / dvsr;
+        int div2 = second / dvsr;
+        System.out.println(first + "/" + dvsr + "=" + div1);
+        if(div1 >=1 && div1 <= 10){
+            System.out.println("First result in range of 1..10");
+        }
+        else if(div1 >=10 && div1 <= 20){
+            System.out.println("First result in range of 10..20");
+        }
+        System.out.println(second + "/" + dvsr + "=" + div2);
+        if(div2 >=1 && div2 <= 10){
+            System.out.println("Second result in range of 1..10");
+        }
+        else if(div2 >=10 && div2 <= 20){
+            System.out.println("Second result in range of 10..20");
+        }
 
-        }
-        else{
-            System.out.println("incorrect input");
-        }
+
     }
 
     @And("I add {int} to {int} , print result and verify it")

@@ -172,7 +172,7 @@
 
     @homework10_1_1
     Scenario:  User inputs two numbers which are divided by 5
-     And user input 200 and 100 which are divided by 6
+     And user input 20 and 100 which are divided by 5
 
     @homework10_1_2
     Scenario: Addition
