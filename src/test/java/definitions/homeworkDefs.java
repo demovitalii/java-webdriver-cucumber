@@ -844,7 +844,7 @@ public class homeworkDefs {
 
     @And("I select Paypal payment type")
     public void iSelectPaypalPaymentType() {
-        getDriver().findElement(By.xpath("//span[contains(text(),'Other Ways to Pay')]")).click();
+        getDriver().findElement(By.xpath("//label[@for='other-ways-to-pay-tile'][@class='ups-tile_button_content']")).click();
     }
 
     @Then("I review all recorded details on the review page")
