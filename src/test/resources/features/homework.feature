@@ -222,3 +222,40 @@
       Then I verify shipment form is reset
 
 
+    @homework11_coding
+    Scenario: Coding chalanges11
+      And I Write a function that find two max numbers in an array
+      And  I Write a function that finds if array contains duplicates
+      And I Write a function that finds if "avvna" is palindrome
+      And I Write a function that counts number of each character in a "123154654"
+
+
+    @homework11_2_1
+    Scenario Outline: Verify calculator result 2
+      Given I go to calculator page
+      When I navigate to "Auto Loan Calculator"
+      And I clear all calculator fields
+      And I calculate
+      Then I verify "Please provide a positive auto price." calculator error
+      Then I verify "Please provide a positive interest value." calculator error
+      And I enter "<price>" price, "<month>" months, "<interest>" interest, "<downpayment>" downpayment, "<tradein>" trade-in, "<state>" state, "<tax>" percent tax, "<fees>" fees
+      And I calculate
+      Then I verify monthly pay is "<pay>"
+      Examples:
+        |price|month|interest|downpayment|tradein|state     |tax|fees|pay   |
+        |25000|60   |4.5     |5000       |0      |California|7  |300 |372.86|
+
+    @homework11_2_2
+    Scenario Outline: Converter page 2
+      Given I go to converter page
+      And I click on "<type>"
+      And I select from "<from>" and to "<to>"
+      And I set from "<fromValue>" value and verify result is "<toValue>"
+      Examples:
+        |type  |from    |to         |fromValue|toValue |
+        |length|Mile    |Kilometer  |50       |79.35   |
+        |length|Mile    |Kilometer  |50       |79.41   |
+
+
+
+

@@ -8,9 +8,6 @@ import java.util.concurrent.TimeUnit;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import cucumber.api.java8.Th;
-import cucumber.api.java8.Tr;
-import org.apache.groovy.json.internal.Value;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -27,15 +24,13 @@ import static support.TestContext.getDriver;
 public class homeworkDefs {
     @And("I print if {string} is positive")
     public void iPrintIfIsPositive(String arg0) {
-        int i=Integer.parseInt(arg0);
+        int i = Integer.parseInt(arg0);
 
-        if (i<0){
+        if (i < 0) {
             System.out.println("negative");
-        }
-        else if(i>0){
+        } else if (i > 0) {
             System.out.println("positive");
-        }
-        else {
+        } else {
             System.out.println("zerro");
         }
 
@@ -43,13 +38,10 @@ public class homeworkDefs {
 
     @And("I print {string} th day of week")
     public void iPrintThDayOfWeek(String arg0) {
-        int i=Integer.parseInt(arg0)-1;
-        String[]days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        int i = Integer.parseInt(arg0) - 1;
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
         System.out.println(days[i]);
     }
-
-
-
 
 
     @And("I create map with keys {string} , {string} and values {string}, {string} and swap values")
@@ -58,14 +50,14 @@ public class homeworkDefs {
         info.put(k1, v1);
         info.put(k2, v2);
         System.out.println("Original Map:");
-        for(String key : info.keySet()) {
+        for (String key : info.keySet()) {
             System.out.println(key + ": " + info.get(key));
         }
         String valueOriginal1 = info.get(k1);
-        info.put(k1,info.get(k2));
-        info.put(k2,valueOriginal1);
+        info.put(k1, info.get(k2));
+        info.put(k2, valueOriginal1);
         System.out.println("Swapped Map:");
-        for(String key : info.keySet()) {
+        for (String key : info.keySet()) {
             System.out.println(key + ": " + info.get(key));
         }
     }
@@ -101,9 +93,9 @@ public class homeworkDefs {
 
     @And("I Change resolution to {string}")
     public void iChangeResolutionTo(String device) throws InterruptedException {
-        Dimension dPhone = new Dimension(400,768);
-        Dimension dTablet = new Dimension(800,768);
-        Dimension dDesktop = new Dimension(1024,768);
+        Dimension dPhone = new Dimension(400, 768);
+        Dimension dTablet = new Dimension(800, 768);
+        Dimension dDesktop = new Dimension(1024, 768);
 
         if (device.equalsIgnoreCase("phone")) {
             getDriver().manage().window().setSize(dPhone);
@@ -112,14 +104,14 @@ public class homeworkDefs {
         } else if (device.equalsIgnoreCase("tablet")) {
             getDriver().manage().window().setSize(dTablet);
         } else {
-            System.out.println("unsupported device: "+ device);
+            System.out.println("unsupported device: " + device);
         }
         Thread.sleep(5000);
 
     }
 
     @And("I fill out all required fields")
-    public void iFillOutAllRequiredFields(){
+    public void iFillOutAllRequiredFields() {
         getDriver().findElement(By.xpath("//input[@id='name']")).click();
         getDriver().findElement(By.xpath("//input[@id='firstName']")).sendKeys("First");
         getDriver().findElement(By.xpath("//input[@id='middleName']")).sendKeys("Middle");
@@ -131,7 +123,6 @@ public class homeworkDefs {
         getDriver().findElement(By.xpath("//input[@id='password']")).sendKeys("159159159");
         getDriver().findElement(By.xpath("//input[@id='confirmPassword']")).sendKeys("159159159");
         getDriver().findElement(By.xpath("//input[@name='agreedToPrivacyPolicy']")).click();
-
 
 
     }
@@ -198,11 +189,10 @@ public class homeworkDefs {
     public void iSwapAndElementInArray(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6) {
         int myArray[] = new int[]{arg2, arg3, arg4, arg5, arg6};
         System.out.print("Original array: [");
-        for (int i = 0; i < 4; i++)
-        {
-            System.out.print(myArray[i]+", ");
+        for (int i = 0; i < 4; i++) {
+            System.out.print(myArray[i] + ", ");
         }
-        System.out.println(myArray[4]+"]");
+        System.out.println(myArray[4] + "]");
 
         int firstIndex = arg0 - 1;
         int secondIndex = arg1 - 1;
@@ -212,40 +202,32 @@ public class homeworkDefs {
         myArray[firstIndex] = temp;
 
         System.out.print("Swapped array: [");
-        for (int i = 0; i < 4; i++)
-        {
-            System.out.print(myArray[i]+", ");
+        for (int i = 0; i < 4; i++) {
+            System.out.print(myArray[i] + ", ");
         }
-        System.out.println(myArray[4]+"]");
+        System.out.println(myArray[4] + "]");
     }
 
     @And("I check divisibility of {int} by {int} , {int} and both")
     public void iCheckDivisibilityOfByAndBoth(int n, int d1, int d2) {
-        if(d1 == 0 || d2 == 0){
-            System.out.println(n +" division by zero error");
-        }
-        else if(d1 == d2){
+        if (d1 == 0 || d2 == 0) {
+            System.out.println(n + " division by zero error");
+        } else if (d1 == d2) {
             System.out.println("Dividers are equal!!!");
             System.out.println("But we check anyway:");
-            if(n%d1==0){
-                System.out.println(n +" divisible by " + d1);
-            }
-
-            else{
+            if (n % d1 == 0) {
+                System.out.println(n + " divisible by " + d1);
+            } else {
                 System.out.println("Not Divisible");
             }
-        }
-        else {
-            if(n%d1==0 && n%d2==0){
-                System.out.println(n +" divisible by " + d1 +" and "+d2);
-            }
-            else if(n%d1==0){
-                System.out.println(n +" divisible by " + d1);
-            }
-            else if(n%d2==0){
-                System.out.println(n +" divisible by " + d2);
-            }
-            else{
+        } else {
+            if (n % d1 == 0 && n % d2 == 0) {
+                System.out.println(n + " divisible by " + d1 + " and " + d2);
+            } else if (n % d1 == 0) {
+                System.out.println(n + " divisible by " + d1);
+            } else if (n % d2 == 0) {
+                System.out.println(n + " divisible by " + d2);
+            } else {
                 System.out.println("Not Divisible");
             }
         }
@@ -271,7 +253,7 @@ public class homeworkDefs {
         getDriver().manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
         getDriver().findElement(By.xpath("//input[@id='tAddress']")).sendKeys(street);
         getDriver().findElement(By.xpath("//input[@id='tCity']")).sendKeys(city);
-        String stateOptionXpath = "//option[@value='"+state+"']";
+        String stateOptionXpath = "//option[@value='" + state + "']";
         getDriver().findElement(By.xpath(stateOptionXpath)).click();
         getDriver().findElement(By.xpath("//a[@id='zip-by-address']")).click();
         Thread.sleep(5000);
@@ -286,7 +268,7 @@ public class homeworkDefs {
     @And("I print all numbers from zerro up to {int}")
     public void iPrintAllNumbersFromZerroUpTo(int n) {
         int i = 0;
-        while( i < n+1){
+        while (i < n + 1) {
             System.out.println(i);
             i++;
         }
@@ -294,7 +276,7 @@ public class homeworkDefs {
 
     @And("I print all numbers from {int} up to {int}")
     public void iPrintAllNumbersFromUpTo(int i, int n) {
-        while( i < n+1){
+        while (i < n + 1) {
             System.out.println(i);
             i++;
         }
@@ -302,18 +284,18 @@ public class homeworkDefs {
 
     @And("I print integer array")
     public void iPrintIntegerArray() {
-        int[] myArray = new int[]{1,2,3,4,5};
-        for(int i: myArray){
-            System.out.print(i+" ");
+        int[] myArray = new int[]{1, 2, 3, 4, 5};
+        for (int i : myArray) {
+            System.out.print(i + " ");
         }
     }
 
     @And("I print all even numbers from integer array")
     public void iPrintAllEvenNumbersFromIntegerArray() {
-        int[] myArray = new int[]{1,2,3,4,5};
-        for(int i: myArray){
-            if(i%2==0){
-               System.out.print(i+" ");
+        int[] myArray = new int[]{1, 2, 3, 4, 5};
+        for (int i : myArray) {
+            if (i % 2 == 0) {
+                System.out.print(i + " ");
             }
         }
     }
@@ -321,12 +303,12 @@ public class homeworkDefs {
     @And("I check if array is empty")
     public void iCheckIfArrayIsEmpty() {
         int[] myArray = new int[]{};
-            if(myArray.length==0){
-                System.out.println("Array is empty");
-            }
-            else {
-                System.out.println("Array is not empty");
-            };
+        if (myArray.length == 0) {
+            System.out.println("Array is empty");
+        } else {
+            System.out.println("Array is not empty");
+        }
+        ;
     }
 
     @And("I check if array contains another element")
@@ -334,8 +316,8 @@ public class homeworkDefs {
         int[] myArray = new int[]{1, 4, 3, 6, 7};
         int element = 5;
         String present = "Element is not present in array";
-        for(int i: myArray){
-            if(i==element){
+        for (int i : myArray) {
+            if (i == element) {
                 present = "element is present in array";
             }
         }
@@ -346,18 +328,15 @@ public class homeworkDefs {
     @And("I print all numbers up to {int} with conditions Fizz and Buzz")
     public void iPrintAllNumbersUpToWithConditionsFizzAndBuzz(int n) {
         int i = 1;
-        while (i < n+1){
-            if(i%3==0 && i%5==0){
+        while (i < n + 1) {
+            if (i % 3 == 0 && i % 5 == 0) {
                 System.out.print("FizzBuzz ");
-            }
-            else if(i%3==0){
+            } else if (i % 3 == 0) {
                 System.out.print("Fizz ");
-            }
-            else if(i%5==0){
+            } else if (i % 5 == 0) {
                 System.out.print("Buzz ");
-            }
-            else {
-                System.out.print(i+" ");
+            } else {
+                System.out.print(i + " ");
             }
             i++;
         }
@@ -376,25 +355,24 @@ public class homeworkDefs {
     public void iSelectWithShape(String Country, String type) {
         getDriver().manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
         String CountryId = "000000";
-        if(Country.equals("Canada")){
-            CountryId="10054";
+        if (Country.equals("Canada")) {
+            CountryId = "10054";
         }
-        if(Country.equals("El Salvador")){
-            CountryId="10095";
+        if (Country.equals("El Salvador")) {
+            CountryId = "10095";
         }
-        if(Country.equals("Estonia")){
-            CountryId="10104";
+        if (Country.equals("Estonia")) {
+            CountryId = "10104";
         }
-        if(Country.equals("Fiji")){
-            CountryId="10109";
+        if (Country.equals("Fiji")) {
+            CountryId = "10109";
         }
 
         Select stateSelect = new Select(getDriver().findElement(By.xpath("//select[@name='CountryID']")));
         stateSelect.selectByValue(CountryId);
-        if(type.equals("Postcard")){
+        if (type.equals("Postcard")) {
             getDriver().findElement(By.xpath("//input[@id='option_1']")).click();
-        }
-        else{
+        } else {
             System.out.println("error");
         }
     }
@@ -407,11 +385,10 @@ public class homeworkDefs {
     @Then("I calculate the price and validate cost is {string}")
     public void iCalculateThePriceAndValidateCostIs(String cost) {
         getDriver().findElement(By.xpath("//input[@value='Calculate']")).click();
-        if(getDriver().findElement(By.xpath("//div[@id='total']")).getText().equals(cost)){
+        if (getDriver().findElement(By.xpath("//div[@id='total']")).getText().equals(cost)) {
             System.out.println("OK");
             System.out.println(getDriver().findElement(By.xpath("//div[@id='total']")).getText());
-        }
-        else {
+        } else {
             System.out.println("NOT OK");
             System.out.println(getDriver().findElement(By.xpath("//div[@id='total']")).getText());
         }
@@ -419,7 +396,7 @@ public class homeworkDefs {
 
     @When("I go to {string} tab")
     public void iGoToTab(String text) {
-        String menuXpath = "//a[@class='menuitem'][contains(text(),'"+text+"')]";
+        String menuXpath = "//a[@class='menuitem'][contains(text(),'" + text + "')]";
         getDriver().findElement(By.xpath(menuXpath)).click();
 
     }
@@ -450,16 +427,16 @@ public class homeworkDefs {
     @And("I filter by {string} location types, {string} services, {string} available services")
     public void iFilterByLocationTypesServicesAvailableServices(String LocType, String Serv, String AvServ) {
         getDriver().manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
-        if(LocType.equals("Post Offices")){
+        if (LocType.equals("Post Offices")) {
             getDriver().findElement(By.xpath("//button[@id='post-offices-select']")).click();
             getDriver().findElement(By.xpath("//div[@class='col-md-4 col-sm-5 col-xs-12 location-type-container']//li[2]//a[1]")).click();
 
         }
-        if(Serv.equals("Pickup Services")){
+        if (Serv.equals("Pickup Services")) {
             getDriver().findElement(By.xpath("//button[@id='service-type-select']")).click();
             getDriver().findElement(By.xpath("//li[@id='pickupPo']//a[contains(text(),'Pickup Services')]")).click();
         }
-        if(AvServ.equals("Accountable Mail")){
+        if (AvServ.equals("Accountable Mail")) {
             getDriver().findElement(By.xpath("//button[@id='available-service-select']")).click();
             getDriver().findElement(By.xpath("//a[contains(text(),'Accountable Mail')]")).click();
         }
@@ -470,7 +447,7 @@ public class homeworkDefs {
         getDriver().findElement(By.xpath("//input[@id='search-input']")).click();
         getDriver().findElement(By.xpath("//input[@id='addressLineOne']")).sendKeys(street);
         getDriver().findElement(By.xpath("//input[@id='cityOrZipCode']")).sendKeys(city);
-        String stateXpath = "//option[@value='"+state+"']";
+        String stateXpath = "//option[@value='" + state + "']";
         getDriver().findElement(By.xpath(stateXpath)).click();
         getDriver().findElement(By.xpath("//a[contains(text(),'Go to Results')]")).click();
     }
@@ -489,31 +466,25 @@ public class homeworkDefs {
 
     @And("I click on {string}")
     public void iClickOn(String page) {
-        if(page.equalsIgnoreCase("temperature")){
+        if (page.equalsIgnoreCase("temperature")) {
             getDriver().findElement(By.xpath("//div[@id='menu']//a[contains(text(),'Temperature')]")).click();
-        }
-        else if(page.equalsIgnoreCase("length")){
+        } else if (page.equalsIgnoreCase("length")) {
             System.out.println("");
-        }
-        else if(page.equalsIgnoreCase("area")){
+        } else if (page.equalsIgnoreCase("area")) {
             getDriver().findElement(By.xpath("//div[@id='menu']//a[contains(text(),'Area')]")).click();
-        }
-        else if(page.equalsIgnoreCase("volume")){
+        } else if (page.equalsIgnoreCase("volume")) {
             getDriver().findElement(By.xpath("//div[@id='menu']//a[contains(text(),'Volume')]")).click();
-        }
-        else if(page.equalsIgnoreCase("weigth")){
+        } else if (page.equalsIgnoreCase("weigth")) {
             getDriver().findElement(By.xpath("//div[@id='menu']//a[contains(text(),'Weight')]")).click();
-        }
-        else if(page.equalsIgnoreCase("time")){
+        } else if (page.equalsIgnoreCase("time")) {
             getDriver().findElement(By.xpath("//div[@id='menu']//a[contains(text(),'Time')]")).click();
-        }
-        else {
+        } else {
             System.out.println("input error");
         }
     }
 
     @And("I select from {string} and to {string}")
-    public void iSelectFromAndTo(String from, String to){
+    public void iSelectFromAndTo(String from, String to) {
 
         Select fromSelect = new Select(getDriver().findElement(By.xpath("//select[@name='calFrom']")));
         fromSelect.selectByVisibleText(from);
@@ -528,10 +499,9 @@ public class homeworkDefs {
         float intActResul = Float.parseFloat(actResult);
         float intExpResul = Float.parseFloat(expResult);
         double accuracy = 1.015;
-        if (intActResul<intExpResul*accuracy && intActResul>intExpResul/accuracy ){
+        if (intActResul < intExpResul * accuracy && intActResul > intExpResul / accuracy) {
             System.out.println("ok");
-        }
-        else {
+        } else {
             System.out.println("not ok");
         }
     }
@@ -546,7 +516,7 @@ public class homeworkDefs {
     }
 
     @And("I search for {string}")
-    public void iSearchFor(String address){
+    public void iSearchFor(String address) {
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
         WebElement input = getDriver().findElement(By.xpath("//input[@id='address']"));
         wait.until(ExpectedConditions.elementToBeClickable(input));
@@ -556,31 +526,29 @@ public class homeworkDefs {
 
 
     @And("I click Show Table on the map")
-    public void iClickShowTableOnTheMap(){
+    public void iClickShowTableOnTheMap() {
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
-        WebElement  element = getDriver().findElement(By.xpath("//a[@class='route-table-toggle']"));
+        WebElement element = getDriver().findElement(By.xpath("//a[@class='route-table-toggle']"));
         wait.until(ExpectedConditions.elementToBeClickable(element));
-        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        JavascriptExecutor ex = (JavascriptExecutor) getDriver();
         ex.executeScript("arguments[0].click()", element);
 
 
     }
 
     @When("I click Select All on the table")
-    public void iClickSelectAllOnTheTable(){
+    public void iClickSelectAllOnTheTable() {
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
 
 
-
-
-        WebElement  element = getDriver().findElement(By.xpath("//a[@class='totalsArea']"));
+        WebElement element = getDriver().findElement(By.xpath("//a[@class='totalsArea']"));
         wait.until(ExpectedConditions.elementToBeClickable(element));
-        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        JavascriptExecutor ex = (JavascriptExecutor) getDriver();
         ex.executeScript("arguments[0].click()", element);
     }
 
     @And("I close modal window")
-    public void iCloseModalWindow(){
+    public void iCloseModalWindow() {
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
         WebElement close = getDriver().findElement(By.xpath("//div[@id='modal-box-closeModal']"));
         wait.until(ExpectedConditions.elementToBeClickable(close)).click();
@@ -588,35 +556,30 @@ public class homeworkDefs {
 
     @Then("I verify that summary of all rows of Cost column is equal Approximate Cost in Order Summary")
     public void iVerifyThatSummaryOfAllRowsOfCostColumnIsEqualApproximateCostInOrderSummary() throws InterruptedException {
-        WebElement problematicElement= getDriver().findElement(By.xpath("//div[@class='dojoxGridScrollbox']"));
-        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        WebElement problematicElement = getDriver().findElement(By.xpath("//div[@class='dojoxGridScrollbox']"));
+        JavascriptExecutor ex = (JavascriptExecutor) getDriver();
         ex.executeScript("arguments[0].scrollBy(0,1000)", problematicElement);
         Thread.sleep(1000);
-
-
-
-
 
 
         List<WebElement> all = getDriver().findElements(By.xpath("//td[contains(text(),'$')][not(contains(text(),'k'))]"));
         List<Double> listValue;
         listValue = new ArrayList<>();
 
-        for (WebElement i : all){
+        for (WebElement i : all) {
             listValue.add(Double.parseDouble(i.getText().substring(1)));
         }
 
         double sum = 0.00;
-        for (double i:listValue){
-            sum+=i;
+        for (double i : listValue) {
+            sum += i;
         }
         double approxCostDouble = Double.parseDouble(getDriver().findElement(By.xpath("//span[@class='approx-cost']")).getText());
-        int intSum = (int)sum;
-        int intApproxCost = (int)approxCostDouble;
-        if(intApproxCost==intSum){
+        int intSum = (int) sum;
+        int intApproxCost = (int) approxCostDouble;
+        if (intApproxCost == intSum) {
             System.out.println("OK");
-        }
-        else {
+        } else {
             System.out.println("NOT OK");
         }
         System.out.println(intApproxCost);
@@ -684,17 +647,15 @@ public class homeworkDefs {
         int div1 = first / dvsr;
         int div2 = second / dvsr;
         System.out.println(first + "/" + dvsr + "=" + div1);
-        if(div1 >=1 && div1 <= 10){
+        if (div1 >= 1 && div1 <= 10) {
             System.out.println("First result in range of 1..10");
-        }
-        else if(div1 >=10 && div1 <= 20){
+        } else if (div1 >= 10 && div1 <= 20) {
             System.out.println("First result in range of 10..20");
         }
         System.out.println(second + "/" + dvsr + "=" + div2);
-        if(div2 >=1 && div2 <= 10){
+        if (div2 >= 1 && div2 <= 10) {
             System.out.println("Second result in range of 1..10");
-        }
-        else if(div2 >=10 && div2 <= 20){
+        } else if (div2 >= 10 && div2 <= 20) {
             System.out.println("Second result in range of 10..20");
         }
 
@@ -704,12 +665,13 @@ public class homeworkDefs {
     @And("I add {int} to {int} , print result and verify it")
     public void iAddToPrintResultAndVerifyIt(int first, int second) throws InterruptedException {
         int add = first + second;
-        System.out.println("Addition is "+add);
+        System.out.println("Addition is " + add);
 
         System.out.println("TESTING...");
         TimeUnit.SECONDS.sleep(1);
         System.out.println(".");
-        TimeUnit.SECONDS.sleep(1);;
+        TimeUnit.SECONDS.sleep(1);
+        ;
         System.out.println(".");
         TimeUnit.SECONDS.sleep(1);
         System.out.println(".");
@@ -723,10 +685,9 @@ public class homeworkDefs {
         System.out.println(".");
         TimeUnit.SECONDS.sleep(1);
 
-        if(add - first != second || add - second != first) {
+        if (add - first != second || add - second != first) {
             System.out.println("TEST FAILED");
-        }
-        else {
+        } else {
             System.out.println("TEST PASSED");
         }
         TimeUnit.SECONDS.sleep(5);
@@ -735,7 +696,7 @@ public class homeworkDefs {
     @And("I reverse every third character of a string {string}")
     public void iReverseEveryThirdCharacterOfAString(String str) {
         StringBuilder newString = new StringBuilder();
-        for(int i=str.length()-3; i>=0; i-=3){
+        for (int i = str.length() - 3; i >= 0; i -= 3) {
             newString.append(str.charAt(i));
         }
         System.out.println(newString);
@@ -745,13 +706,13 @@ public class homeworkDefs {
     @And("I translate {string} to YODA language")
     public void iTranslateToYODALanguage(String humanText) {
         String[] humanTextArray = humanText.split(" ");
-        System.out.println("Human text: "+humanText);
+        System.out.println("Human text: " + humanText);
         StringBuilder yodaText = new StringBuilder();
-        for(int i = humanTextArray.length-1; i>=0; i-=1){
-            yodaText.append(humanTextArray[i]+" ");
+        for (int i = humanTextArray.length - 1; i >= 0; i -= 1) {
+            yodaText.append(humanTextArray[i] + " ");
         }
         yodaText.setLength(yodaText.length() - 1);
-        System.out.println("Yoda text: "+yodaText);
+        System.out.println("Yoda text: " + yodaText);
 
     }
 
@@ -790,7 +751,7 @@ public class homeworkDefs {
     @And("I submit the shipment form")
     public void iSubmitTheShipmentForm() {
         WebElement submit = getDriver().findElement(By.xpath("//button[@id='nbsBackForwardNavigationContinueButton']"));
-        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        JavascriptExecutor ex = (JavascriptExecutor) getDriver();
         ex.executeScript("arguments[0].click()", submit);
     }
 
@@ -804,7 +765,7 @@ public class homeworkDefs {
     @And("I cancel the shipment form")
     public void iCancelTheShipmentForm() {
         WebElement cancel = getDriver().findElement(By.xpath("//button[@id='nbsBackForwardNavigationCancelShipmentButton']"));
-        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        JavascriptExecutor ex = (JavascriptExecutor) getDriver();
         ex.executeScript("arguments[0].click()", cancel);
         WebElement yes = getDriver().findElement(By.xpath("//button[@id='nbsCancelShipmentWarningYes']"));
 
@@ -821,6 +782,7 @@ public class homeworkDefs {
         WebElement wrap = getDriver().findElement(By.xpath("//div[@class='ups-wrap_inner']//div[@class='ups-wrap']"));
         wait.until(ExpectedConditions.textToBePresentInElement(wrap, "Hello. Where are you shipping from?"));
     }
+
     @When("I fill out destination shipment fields")
     public void iFillOutDestinationShipmentFields() {
         getDriver().findElement(By.xpath("//option[contains(text(),'United States')]")).click();
@@ -847,9 +809,9 @@ public class homeworkDefs {
 
     @And("I select cheapest delivery option")
     public void iSelectCheapestDeliveryOption() {
-        List<WebElement> myList=getDriver().findElements(By.xpath("//strong[contains(text(),'$')]"));
-        int i = myList.toArray().length-1;
-        JavascriptExecutor ex=(JavascriptExecutor)getDriver();
+        List<WebElement> myList = getDriver().findElements(By.xpath("//strong[contains(text(),'$')]"));
+        int i = myList.toArray().length - 1;
+        JavascriptExecutor ex = (JavascriptExecutor) getDriver();
         ex.executeScript("arguments[0].click()", myList.get(i));
 
     }
@@ -858,7 +820,7 @@ public class homeworkDefs {
     public void iSetDescriptionAndCheckSaturdayDeliveryType() {
         getDriver().findElement(By.xpath("//input[@id='nbsShipmentDescription']")).sendKeys("hello");
         getDriver().findElement(By.xpath("//saturday-delivery-option[@class='ng-star-inserted']//label[@class='ups-lever ups-checkbox-custom-label section-checkbox-label']")).click();
-        
+
 
     }
 
@@ -870,10 +832,9 @@ public class homeworkDefs {
         getDriver().findElement(By.xpath("//saturday-delivery-option[@class='ng-star-inserted']//label[@class='ups-lever ups-checkbox-custom-label section-checkbox-label']")).click();
         Thread.sleep(500);
         String saturday = getDriver().findElement(By.xpath("//span[@id='total-charges-spinner']")).getText();
-        if(anyDay.equals(saturday)){
+        if (anyDay.equals(saturday)) {
             System.out.println("not ok");
-        }
-        else {
+        } else {
             System.out.println("ok");
         }
         System.out.println(anyDay);
@@ -895,4 +856,84 @@ public class homeworkDefs {
     }
 
 
+    @And("I Write a function that find two max numbers in an array")
+    public void iWriteAFunctionThatFindMaxNumbersInAnArray() {
+        int[] intArray = {1, 2, 31, 4, 31, 8, 10, 4};
+        int firstOfTwoMax = intArray[0] - intArray[1];
+        int secondOfTwoMax = intArray[0] - intArray[1];
+        for (int i : intArray) {
+            if (i > firstOfTwoMax) {
+                firstOfTwoMax = i;
+            }
+            int countMax = 0;
+            for (int j : intArray) {
+                if (j == firstOfTwoMax) {
+                    countMax++;
+                }
+            }
+            if (countMax > 1) {
+                secondOfTwoMax = firstOfTwoMax;
+            } else {
+                for (int y : intArray) {
+                    if (y > secondOfTwoMax && y < firstOfTwoMax) {
+                        secondOfTwoMax = y;
+                    }
+                }
+            }
+
+        }
+        System.out.println("First max: " + firstOfTwoMax);
+        System.out.println("Second max: " + secondOfTwoMax);
+    }
+
+    @And("I Write a function that finds if array contains duplicates")
+    public void iWriteAFunctionThatFindsIfArrayContainsDuplicates() {
+        Object[] myArray = {0.56, 4, "fdfd", 5 ,"dsds"};
+        int length = myArray.length;
+        int duplicates = 0;
+        for(int i = 0; i < length; i++){
+            for(int j = 0; j < length; j++){
+                if(myArray[i].equals(myArray[j]) && i != j){
+                    duplicates++;
+                }
+            }
+
+        }
+        if(duplicates>1) {
+            System.out.println("Array contains duplicates");
+        }
+        else {
+            System.out.println("All elements are unique");
+        }
+    }
+
+    @And("I Write a function that finds if {string} is palindrome")
+    public void iWriteAFunctionThatFindsIfIsPalindrome(String given) {
+        StringBuilder rev = new StringBuilder();
+        int length = given.length();
+        for (int i = length-1; i >= 0; i--) {
+            rev.append(given.charAt(i));
+        }
+
+        if(given.equals(rev.toString())){
+            System.out.println("Palindrome");
+        }
+        else {
+            System.out.println("not a palindrome");
+        }
+    }
+
+    @And("I Write a function that counts number of each character in a {string}")
+    public void iWriteAFunctionThatCountsNumberOfEachCharacterInA(String str) {
+        for(int i = 0; i<str.length();i++){
+            int count = 0;
+            char charr = str.charAt(i);
+            for (int j = 0; j <str.length();j++){
+                if(str.charAt(j)==str.charAt(i)){
+                    count++;
+                }
+            }
+            System.out.println(charr + " : " + count);
+        }
+    }
 }
