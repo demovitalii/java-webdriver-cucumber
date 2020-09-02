@@ -231,7 +231,7 @@
 
 
     @homework11_2_1
-    Scenario Outline: Verify calculator result 2
+    Scenario Outline: Verify calculator result with examples
       Given I go to calculator page
       When I navigate to "Auto Loan Calculator"
       And I clear all calculator fields
@@ -246,7 +246,7 @@
         |25000|60   |4.5     |5000       |0      |California|7  |300 |372.86|
 
     @homework11_2_2
-    Scenario Outline: Converter page 2
+    Scenario Outline: Converter page with examples
       Given I go to converter page
       And I click on "<type>"
       And I select from "<from>" and to "<to>"

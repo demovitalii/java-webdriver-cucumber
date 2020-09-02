@@ -933,7 +933,7 @@ public class homeworkDefs {
                     count++;
                 }
             }
-            System.out.println(charr + " : " + count);
+            System.out.println(charr + ": " + count);
         }
     }
 }
