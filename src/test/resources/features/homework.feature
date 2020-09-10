@@ -281,5 +281,47 @@
       Then I verify shipment form is reset
 
 
+    @homework12_1
+    Scenario: Wrong store id does not match
+      Given I go to usps page
+      When I go to Postal Store tab
+      And I enter "12345" into store search
+      Then I search and validate no products found
+
+    @homework12_2
+    Scenario: One item found
+      Given I go to usps page
+      When I go to Stamps under Postal Store
+      And choose mail service Priority Mail
+      Then I Verify 1 items found
+
+    @homework12_3
+    Scenario: Verify color
+      Given I go to usps page
+      When I go to Stamps under Postal Store
+      When I unselect Stamps checkbox
+      And select Vertical stamp Shape
+      And I click Blue color
+      Then I verify "Blue" and "Vertical" filters
+      Then I Verify 12 items found
+      And I verify that items below 12 dollars exists
+
+    @homework12_4
+    Scenario: Verify location
+      Given I go to usps page
+      When I perform Passports search
+      And I select "Passport Application" in results
+      And I click "Schedule an Appointment" button
+      And verify "Passport Renewal" service exists
+
+    @homework12_5
+    Scenario: PO Box
+      Given I go to usps page
+      When I go to PO Boxes under Track & Manage
+      And I reserve new PO box for "94022"
+      Then I verify that "Los Altos — Post Office™" present
+      And I verify that "Size 5-XL" PO Box is available in Los Altos — Post Office™
+
+
 
 

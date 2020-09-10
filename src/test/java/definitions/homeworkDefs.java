@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.assertj.core.api.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,6 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Arrays;
 
 
 
@@ -935,5 +937,205 @@ public class homeworkDefs {
             }
             System.out.println(charr + ": " + count);
         }
+    }
+
+    @When("I go to Postal Store tab")
+    public void iGoToPostalStoreTab() {
+        getDriver().findElement(By.xpath("//a[@name='navpostalstore']/..//a[@aria-expanded='false']")).click();
+    }
+
+    @And("I enter {string} into store search")
+    public void iEnterIntoStoreSearch(String search) {
+        getDriver().findElement(By.xpath("//input[@name='Ntt']")).sendKeys(search);
+    }
+
+    @Then("I search and validate no products found")
+    public void iSearchAndValidateNoProductsFound() {
+        getDriver().findElement(By.xpath("//input[@name='search']")).click();
+        WebElement errorP = getDriver().findElement(By.xpath("//p[contains(text(),'Your search did not match any products.')]"));
+
+        assertThat(errorP.isDisplayed());
+    }
+
+    @When("I go to Stamps under Postal Store")
+    public void iGoToStampsUnderPostalStore() {
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getDriver().findElement(By.xpath("//a[@name='navpostalstore']/..//a[@aria-expanded='false']"))).perform();
+        getDriver().findElement(By.xpath("//a[text()='Stamps']")).click();
+    }
+
+    @And("choose mail service Priority Mail")
+    public void chooseMailServicePriorityMail() {
+        JavascriptExecutor js = ((JavascriptExecutor) getDriver());
+        WebElement label = getDriver().findElement(By.xpath("//label[@for='checkbox-type-Mail Service-Priority Mail-1']"));
+        js.executeScript("arguments[0].click();", label);
+    }
+
+
+    @Then("I Verify {int} items found")
+    public void iVerifyItemsFound(int count) {
+        List<WebElement>  results = getDriver().findElements(By.xpath("//div[@class='result-product-img']"));
+        if (results.size() == count){
+            System.out.println("OK");
+        }
+        else {
+            System.out.println("not OK");
+        }
+    }
+
+    @When("I unselect Stamps checkbox")
+    public void iUnselectStampsCheckbox() {
+        JavascriptExecutor js = ((JavascriptExecutor) getDriver());
+        WebElement label = getDriver().findElement(By.xpath("//label[@for='checkbox-type-Category-Stamps']"));
+        js.executeScript("arguments[0].click();", label);
+    }
+
+    @And("select Vertical stamp Shape")
+    public void selectVerticalStampShape() {
+        JavascriptExecutor js = ((JavascriptExecutor) getDriver());
+        WebElement label = getDriver().findElement(By.xpath("//label[contains(@for,'checkbox-type-Stamp Shape-Vertical')]"));
+        js.executeScript("arguments[0].click();", label);
+    }
+
+    @And("I click Blue color")
+    public void iClickBlueColor() {
+        JavascriptExecutor js = ((JavascriptExecutor) getDriver());
+        WebElement label = getDriver().findElement(By.xpath("//div[@style='background-color:#033366;']"));
+        js.executeScript("arguments[0].click();", label);
+    }
+
+    @Then("I verify {string} and {string} filters")
+    public void iVerifyAndFilters(String filter1, String filter2) {
+        WebElement  filtersSpan1 = getDriver().findElement(By.xpath("//div[@class='container-fluid']//div[@class='cartridge-viewport']//span[1]"));
+        WebElement  filtersSpan2 = getDriver().findElement(By.xpath("//div[@class='container-fluid']//div[@class='cartridge-viewport']//span[2]"));
+        assertThat(filtersSpan1.getText().equals(filter1+" "));
+        assertThat(filtersSpan2.getText().equals(filter2+" "));
+    }
+
+
+    @And("I verify that items below {int} dollars exists")
+    public void iVerifyThatItemsBelowDollarsExists(int minPrice) {
+        List<WebElement>  results = getDriver().findElements(By.xpath("//p[contains(text(),'$')]"));
+        ArrayList<String> ar = new ArrayList<>();
+        for(WebElement i:results){
+
+            ar.add(i.getText());
+        }
+        ArrayList<String> lower = new ArrayList<>();
+        int i = 0;
+        while(i<minPrice)
+            {lower.add(Integer.toString(i) +".");
+            i++;
+        }
+        String result = "no results less then "+ Integer.toString(minPrice);
+        for(String z: ar){
+            for(String y: lower){
+                if(z.contains(y)){
+                    result = "Got result under " + Integer.toString(minPrice);
+                }
+            }
+        }
+        System.out.println(result);
+
+
+
+    }
+
+    @When("I perform Passports search")
+    public void iPerformPassportsSearch() {
+        WebElement search = getDriver().findElement(By.xpath("//a[contains(text(),'Search USPS.com')]"));
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(search).perform();
+        getDriver().findElement(By.xpath("//div[@class='repos']//a[contains(text(),'PASSPORTS')]")).click();
+    }
+
+    @And("I select {string} in results")
+    public void iSelectInResults(String arg0) {
+        JavascriptExecutor js = ((JavascriptExecutor) getDriver());
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement results = getDriver().findElement(By.xpath("//div[@id='main_res']"));
+        wait.until(ExpectedConditions.textToBePresentInElement(results, "results found for 'Passports'"));
+        String searchArg = "//span[contains(text(),'"+arg0+"')]";
+        WebElement ourLink = getDriver().findElement(By.xpath(searchArg));
+        js.executeScript("arguments[0].click();", ourLink);
+
+    }
+
+    @And("I click {string} button")
+    public void iClickButton(String arg0) {
+        String button = "//a[@class='button--primary'][contains(text(),'"+arg0+"')]";
+        getDriver().findElement(By.xpath(button)).click();
+    }
+
+    @And("verify {string} service exists")
+    public void verifyServiceExists(String arg0) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        String option = "//option[contains(text(),'"+arg0+"')]";
+        WebElement optionEl = getDriver().findElement(By.xpath(option));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='passportappointmentType']")));
+        wait.until(ExpectedConditions.elementToBeClickable(optionEl));
+    }
+
+    @When("I go to PO Boxes under Track & Manage")
+    public void iGoToPOBoxesUnderTrackManage() {
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getDriver().findElement(By.xpath("//a[@id='navtrackmanage']/..//a[@aria-expanded='false']"))).perform();
+        getDriver().findElement(By.xpath("//a[text()='PO Boxes'][@role='menuitem']")).click();
+    }
+
+    @And("I reserve new PO box for {string}")
+    public void iReserveNewPOBoxFor(String zip) {
+        getDriver().findElement(By.xpath("//input[@id='searchInput']")).sendKeys(zip);
+        getDriver().findElement(By.xpath("//span[@class='icon-search']/..")).click();
+    }
+
+    @Then("I verify that {string} present")
+    public void iVerifyThatPresent(String location) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement locationResults = getDriver().findElement(By.xpath("//div[@class='row poLocationResults']"));
+        wait.until(ExpectedConditions.textToBePresentInElement(locationResults, location));
+    }
+
+
+    @And("I verify that {string} PO Box is available in Los Altos — Post Office™")
+    public void iVerifyThatPOBoxIsAvailableInLosAltosPostOffice(String size){
+        JavascriptExecutor js = ((JavascriptExecutor) getDriver());
+
+
+        js.executeScript("arguments[0].click();", getDriver().findElement(By.xpath("//span[contains(text(),'Los Altos')]")));
+        String sizeXpath = "";
+        if(size.equals("Size 5-XL")){
+            sizeXpath = "//img[@src='images/box_size_xlarge.png']";
+        }
+        else if(size.equals("Size 4-L")){
+            sizeXpath = "//img[@src='images/box_size_large.png']";
+        }
+        else if(size.equals("Size 3-M")){
+            sizeXpath = "//img[@src='images/box_size_medium.png']";
+        }
+        else if(size.equals("Size 2-S")){
+            sizeXpath = "//img[@src='images/box_size_small.png']";
+        }
+        else if(size.equals("Size 1-XS")){
+            sizeXpath = "//img[@src='images/box_size_xsmall.png']";
+        }
+        else {
+            System.out.println("input error");
+        }
+
+
+        js.executeScript("arguments[0].click();", getDriver().findElement(By.xpath(sizeXpath)));
+
+        if(getDriver().findElement(By.xpath("//span[@class='bold unavailable']")).isDisplayed()){
+            System.out.println("Unavailable");
+        }
+        else {
+            System.out.println("Available");
+        }
+
+
+
+
     }
 }
