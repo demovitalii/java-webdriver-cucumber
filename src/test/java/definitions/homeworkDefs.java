@@ -1008,8 +1008,8 @@ public class homeworkDefs {
     public void iVerifyAndFilters(String filter1, String filter2) {
         WebElement  filtersSpan1 = getDriver().findElement(By.xpath("//div[@class='container-fluid']//div[@class='cartridge-viewport']//span[1]"));
         WebElement  filtersSpan2 = getDriver().findElement(By.xpath("//div[@class='container-fluid']//div[@class='cartridge-viewport']//span[2]"));
-        assertThat(filtersSpan1.getText().equals(filter1+" "));
-        assertThat(filtersSpan2.getText().equals(filter2+" "));
+        assertThat(filtersSpan1.getText()).isEqualTo(filter1+" ");
+        assertThat(filtersSpan2.getText()).isEqualTo(filter2+" ");
     }
 
 
@@ -1075,6 +1075,7 @@ public class homeworkDefs {
         WebElement optionEl = getDriver().findElement(By.xpath(option));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='passportappointmentType']")));
         wait.until(ExpectedConditions.elementToBeClickable(optionEl));
+        assertThat(optionEl.isDisplayed()).isTrue();
     }
 
     @When("I go to PO Boxes under Track & Manage")

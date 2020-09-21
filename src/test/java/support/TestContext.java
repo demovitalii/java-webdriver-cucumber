@@ -24,6 +24,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+import org.yaml.snakeyaml.Yaml;
+
+
+
+
 public class TestContext {
 
     private static WebDriver driver;
@@ -38,6 +48,18 @@ public class TestContext {
 
     public static void teardown() {
         driver.quit();
+    }
+
+    public static Map<String, String> getData(String fileName) {
+        try {
+            String path = System.getProperty("user.dir") + "/src/test/resources/data/" + fileName + ".yml";
+            File file = new File(path);
+            InputStream stream = new FileInputStream(file);
+            Yaml yaml = new Yaml();
+            return yaml.load(stream);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void initialize(String browser, String testEnv, boolean isHeadless) {
