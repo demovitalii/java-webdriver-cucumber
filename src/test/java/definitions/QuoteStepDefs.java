@@ -23,6 +23,7 @@ public class QuoteStepDefs {
             case "quote":
                 form.open();
                 break;
+
             default:
                 throw new RuntimeException("Unknown page: " + page);
         }
