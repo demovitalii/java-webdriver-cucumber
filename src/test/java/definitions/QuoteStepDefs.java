@@ -17,17 +17,17 @@ public class QuoteStepDefs {
     QuoteForm form = new QuoteForm();
     QuoteResult result = new QuoteResult();
 
-    @Given("I open {string} page")
-    public void iOpenPage(String page) throws InterruptedException {
-        switch (page) {
-            case "quote":
-                form.open();
-                break;
-
-            default:
-                throw new RuntimeException("Unknown page: " + page);
-        }
-    }
+   // @Given("I open {string} page")
+   // public void iOpenPage(String page) throws InterruptedException {
+    //    switch (page) {
+     //       case "quote":
+     //           form.open();
+       //         break;
+//
+    //        default:
+     //           throw new RuntimeException("Unknown page: " + page);
+    //    }
+   // }
 
     @When("I fill out required fields for {string} oop")
     public void iFillOutRequiredFieldsForOop(String role) {
